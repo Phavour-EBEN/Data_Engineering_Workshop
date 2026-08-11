@@ -337,6 +337,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "jupyter" },
     { name = "pgcli" },
 ]
 
@@ -352,7 +353,10 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "pgcli", specifier = ">=4.4.0" }]
+dev = [
+    { name = "jupyter", specifier = ">=1.1.1" },
+    { name = "pgcli", specifier = ">=4.4.0" },
+]
 
 [[package]]
 name = "debugpy"
