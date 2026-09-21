@@ -1,0 +1,14 @@
+
+version: 2
+sources:
+  - name: destination_db
+    description: "This is the destination database."
+    database: destination_db
+    schema: public
+    tables:
+      - name: films
+        description: "This table contains all the films details."
+      - name: actors
+        description: "This table contains all the actors details."
+      - name: film_actors
+        description: "Mapping table for films and actors."

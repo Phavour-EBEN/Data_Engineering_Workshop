@@ -33,6 +33,26 @@ services:
     networks:
       - elt_network
 
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-postgres:1.4.7
+    command: 
+      [
+        "run",
+        "--profiles-dir",
+        "/root/.dbt",
+        "--project-dir",
+        "/dbt",
+      ]
+    volumes:
+      - ./custom_postgres:/dbt
+      - ~/.dbt:/root/.dbt
+    networks:
+      - elt_network
+    depends_on:
+      - elt_script
+    environment:
+      DBT_PROFILES: default
+      DBT_TARGET: dev
 
 networks:
   elt_network:

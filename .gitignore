@@ -14,3 +14,4 @@ wheels/
 # IDE and Notebooks
 .vscode/
 .ipynb_checkpoints/
+.kilo
