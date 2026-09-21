@@ -1,7 +1,3 @@
-FROM python:3.13-slim
+FROM apache/airflow:2.10.2
 
-RUN apt-get update && apt-get install -y postgresql-client
-
-COPY elt_script.py .
-
-CMD [ "python", "elt_script.py" ]
+RUN pip install apache-airflow-providers-docker
