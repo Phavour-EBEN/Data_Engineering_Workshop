@@ -1,11 +1,13 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from airflow import DAG
 from docker.types import Mount
-from airflow.operators.python_operator import PythonOperator
-from airflow.operators.bash import BashOperator
+from airflow.utils.dates import days_ago
+from airflow.providers.airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
 from airflow.providers.docker.operators.docker import DockerOperator
 import subprocess
 
+
+CONN_ID = ''
 
 default_args = {
     'owner': 'airflow',
@@ -13,14 +15,6 @@ default_args = {
     'email_on_failure': False,
     'email_on_retry': False,
 }
-
-def run_elt_script():
-    result = subprocess.run(['python', '/opt/airflow/elt/elt_script.py'], capture_output=True, text=True)
-    if result.returncode != 0:
-        raise Exception(f"ELT script failed with error: {result.stderr}")
-    else:
-        print(result.stdout)
-
 
 
 dag = DAG(
@@ -31,9 +25,13 @@ dag = DAG(
     catchup=False
 )
   
-elt_task = PythonOperator(
-    task_id='elt_task',
-    python_callable=run_elt_script,
+elt_task = AirbyteTriggerSyncOperator(
+    task_id='airbyte_postgres_postgres',
+    airbyte_conn_id='airbyte',
+    connection_id=CONN_ID,
+    asynchronous=False,
+    timeout=3600,
+    wait_seconds=3,
     dag=dag
 )
 
